@@ -1,5 +1,12 @@
 console.log('Hello World');
 
+window.addEventListener('load', function(){
+    console.log('loadded.');
+    document.getElementById('rock').addEventListener('click', playGame);
+    document.getElementById('paper').addEventListener('click', playGame);
+    document.getElementById('scissor').addEventListener('click', playGame);
+})
+
 function getComputerChoice(){
     let random = Math.random();
 
@@ -68,11 +75,12 @@ function playGame (){
             }
         }
     }
+    /*
     for (let i = 0; i<5;i++){    
     const humanSelection = getHumanChoice();
     const computerSelection = getComputerChoice();
     playRound (humanSelection, computerSelection);
-    }
+    }*/
 
     if (humanScore > computerScore){
         console.log('You won!')
