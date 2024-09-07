@@ -1,5 +1,6 @@
 console.log('Hello World');
 let statusText = document.getElementById('result');
+let actionText = document.getElementById('action');
 let playerChoice = 0;
 let computersChoice = 0;
 let humanScore = 0;
@@ -44,6 +45,7 @@ function getHuman(e){
 }
 
 function gameOver (){
+    actionText.textContent="";
     let playButtons = document.querySelectorAll('button');
     if (humanScore > computerScore){
         console.log('You won!')
@@ -74,13 +76,16 @@ function playGame (){
         if (humanChoice === 1){
             if (computerChoice === 1){
                 console.log('Tie!');
+                actionText.textContent='Ohh its a tie!';
                 turns++;
             } else if (computerChoice === 2){
                 console.log('You lose! Paper beats rock.');
+                actionText.textContent='You lose! Paper beats rock.';
                 computerScore++;
                 turns++;
             } else if (computerChoice===3) {
                 console.log('You won! Rock beats scissor.');
+                actionText.textContent='You won! Rock beats scissor.';
                 humanScore++;
                 turns++;
             }
@@ -88,25 +93,30 @@ function playGame (){
             if (computerChoice ===2){
                 turns++;
                 console.log('Tie!');
+                actionText.textContent='Ohh its a tie!';
             } else if (computerChoice === 1){
                 turns++;
                 console.log('You won! Paper beats rock.');
+                actionText.textContent='You won! Paper beats rock.';
                 humanScore++;
             } else if (computerChoice ===3){
                 console.log('You lose! Scissor beats paper.');
+                actionText.textContent='You lose! Scissor beats paper.';
                 turns++;
                 computerScore++;
             }
         } else if (humanChoice === 3){
             if (computerChoice ===3){
                 turns++;
-                console.log('Tie!');
+                actionText.textContent='Ohh its a tie!';
             } else if ( computerChoice ===2){
                 turns++;
                 console.log('You won! Scissors beats paper.');
+                actionText.textContent='You won! Scissors beats paper.';
                 humanScore++;
             } else if (computerChoice ===1){
                 turns++;
+                actionText.textContent='You lose! Rock beats scissor';
                 console.log('You lose! Rock beats scissor');
                 computerScore++;
             }
