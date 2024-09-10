@@ -11,15 +11,21 @@ window.addEventListener('load', function(){
 
 function createDivs (amount){ 
     let divRef = document.getElementById('mainDiv');
+
+    let size = 500 / amount;
+
     for (let i = 0; i < amount; i++){
-        let newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'column');
+    //    let newDiv = document.createElement('div');
+   //     newDiv.setAttribute('class', 'column');
         for (let j = 0; j < amount; j++){
             let innerDiv = document.createElement('div');
             innerDiv.setAttribute('class', 'inner');
-            newDiv.appendChild(innerDiv);
+            innerDiv.style.width = `${size}px`; 
+            innerDiv.style.height = `${size}px`; 
+
+         divRef.appendChild(innerDiv);
         }
-    divRef.appendChild(newDiv);
+    
     } 
 
     const divs = document.querySelectorAll('#mainDiv div');
@@ -44,7 +50,7 @@ function reset (){
 function changeSize(){
     let numInput = document.getElementById('size').value;
     let divRef = document.getElementById('mainDiv');
-    if (!isNaN(numInput) && numInput <= 13 ){ // if input is a  number and less than 13, remove old divs and create new ones. Looks bad for now over 13.
+    if (!isNaN(numInput) && numInput <= 80 ){ // if input is a  number and less than 13, remove old divs and create new ones. Looks bad for now over 13.
         while(divRef.hasChildNodes() ){
             divRef.removeChild(divRef.firstChild);
         }
