@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
     addListeners()
     document.querySelector("#restart").addEventListener('click', reset)
     document.querySelector("#addPlayer").addEventListener('click', addUser)
+    document.querySelector("#newPlayers").addEventListener('click', resetPlayers)
 });
 
 function addListeners(){
@@ -56,22 +57,26 @@ function playgame(e){
 
    
     let winner = checkWin()
-
+    let draw = checkDraw()
+    console.log(draw)
     if (winner){
         if (winner == 'X') {
-            document.querySelector("#status").textContent = "Player One wins!"
+            document.querySelector("#status").textContent = `Player one ${playerOne.name} wins!`;
         } else {
-            document.querySelector("#status").textContent = "Player Two wins!"
+            document.querySelector("#status").textContent = `Player one ${playerTwo.name} wins!`;
         }
-        document.querySelector("#restart").classList.toggle("hidden")
+        document.querySelector("#btns").classList.toggle("hidden");
         removeListeners()
-    } 
+    } else if (draw){
+        document.querySelector("#status").textContent = "It's a draw.";
+        document.querySelector("#btns").classList.toggle("hidden");
+        removeListeners();
+    }
 
 }
 
 
-function checkWin(){
-    
+function checkWin(){ 
     for (const winningCombo of winningCombinations){
         const[a, b, c] = winningCombo;
         if (gameField[a] !== '' && gameField[a] == gameField[b] && gameField[b] == gameField[c]){
@@ -81,6 +86,18 @@ function checkWin(){
     return null
 }
 
+function checkDraw(){
+
+    for (let field of gameField){
+        if(field==''){
+            return false;
+        }
+    }
+    return true
+}
+
+
+
 
 function createUser(name, symbol){
     return {name, symbol}
@@ -88,7 +105,6 @@ function createUser(name, symbol){
 
 function addUser(){
     let userInput = document.querySelector("#nameInput");
-
     if (userInput.value == ""){
          window.alert("Enter name");
     } else if (playerOne == null){
@@ -98,21 +114,39 @@ function addUser(){
     } else {   
         playerTwo = createUser(userInput.value, 'O')
         document.querySelector('.userInput').classList.toggle("hidden");
-        document.querySelector("#status").textContent="Let's play!";
+        document.querySelector("#status").textContent=`Let's play! ${playerOne.name} starts`;
         document.querySelector("#main-game").classList.toggle("hidden");
-
     }
+}
 
+function resetPlayers(){
+    playerOne = null;
+    playerTwo = null;
+    gameField = Array('', '', '', '', '', '', '', '', '');
+    resetTiles()
+    addListeners()
+    document.querySelector('.userInput').classList.toggle("hidden");
+    document.querySelector("#main-game").classList.toggle("hidden");
+    document.querySelector("#btns").classList.toggle("hidden");
+    document.querySelector('#textNameInput').textContent = "Enter name for player-one"
+    document.querySelector("#nameInput").value = ""
+    document.querySelector("#status").textContent="";
+
+
+}
+
+function resetTiles(){
+    const tiles = document.querySelectorAll(".gametile");
+    for (const tile of tiles){
+        tile.textContent="";
+    }
 }
 
 function reset(){
     gameField = Array('', '', '', '', '', '', '', '', '');
     addListeners()
-    const tiles = document.querySelectorAll(".gametile");
-    for (const tile of tiles){
-        tile.textContent="";
-    }
-    document.querySelector("#status").textContent="Let's play!";
-    document.querySelector("#restart").classList.toggle("hidden");
+    resetTiles()
+    document.querySelector("#status").textContent=`Let's play! ${playerOne.name} starts`;
+    document.querySelector("#btns").classList.toggle("hidden");
     currentPlayer = null;
 }
