@@ -9,18 +9,24 @@
 <body>
     <div class="main-div">
         <h1>Tic-Tac-Toe</h1>
-        <h2 id="status">Let's play!</h2>
-        <div class="main-game">
-        <div class="gametile" id="one"></div>
-        <div class="gametile" id="two"></div>
-        <div class="gametile" id="three"></div>
-        <div class="gametile" id="four"></div>
-        <div class="gametile" id="five"></div>
-        <div class="gametile" id="six"></div>
-        <div class="gametile" id="seven"></div>
-        <div class="gametile" id="eight"></div>
-        <div class="gametile" id="nine"></div>
+        <h2 id="status"></h2>
+        <div class="userInput">
+            <p id="textNameInput">Enter name for player-one</p>
+            <input id="nameInput">
+            <button id="addPlayer">Add</button>
         </div>
+        <div class="hidden" id="main-game">
+        <div class="gametile" data-id="0"></div>
+        <div class="gametile" data-id="1"></div>
+        <div class="gametile" data-id="2"></div>
+        <div class="gametile" data-id="3"></div>
+        <div class="gametile" data-id="4"></div>
+        <div class="gametile" data-id="5"></div>
+        <div class="gametile" data-id="6"></div>
+        <div class="gametile" data-id="7"></div>
+        <div class="gametile" data-id="8"></div>
+        </div>
+        <button id="restart" class="hidden">Restart</button>
     </div>
     <script src="script.js"></script>
 </body>

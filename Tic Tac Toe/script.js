@@ -1,43 +1,118 @@
+let playerOne = null;
+let playerTwo = null;
+var gameField = Array('', '', '', '', '', '', '', '', '');
+var currentPlayer = null;
+const winningCombinations = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 document.addEventListener('DOMContentLoaded', function(){
+    addListeners()
+    document.querySelector("#restart").addEventListener('click', reset)
+    document.querySelector("#addPlayer").addEventListener('click', addUser)
+});
+
+function addListeners(){
     const tiles = document.querySelectorAll(".gametile");
     for (const tile of tiles){
         tile.addEventListener("click", playgame)
     }
-});
+}
 
-const playerOne = createUser("Player One", "X");
-const playerTwo = createUser("Player Two", "O");
-var currentPlayer = null;
+function removeListeners(){
+    const tiles = document.querySelectorAll(".gametile");
+    for (const tile of tiles){
+        tile.removeEventListener("click", playgame)
+    }
+}
 
 function playgame(e){
-
-    if (currentPlayer == null){
+    let currentTD = e.target.getAttribute('data-id');
+    if (e.target.textContent == ""){
+        if (currentPlayer == null){
         currentPlayer = playerOne
-        document.querySelector("#status").textContent = playerTwo.name + "'s turn"
+        e.target.textContent = currentPlayer.symbol
+        gameField[currentTD] = currentPlayer.symbol
+        document.querySelector("#status").textContent = playerTwo.name + "'s turn (" + playerTwo.symbol + ")"
     } else if (currentPlayer == playerOne){
-        document.querySelector("#status").textContent = playerOne.name + "'s turn"
         currentPlayer = playerTwo
+        e.target.textContent = currentPlayer.symbol
+        gameField[currentTD] = currentPlayer.symbol
+        document.querySelector("#status").textContent = playerOne.name + "'s turn(" + playerOne.symbol + ")"
     } else {
         currentPlayer = playerOne
-        document.querySelector("#status").textContent = playerTwo.name + "'s turn"
+        e.target.textContent = currentPlayer.symbol
+        gameField[currentTD] = currentPlayer.symbol
+        document.querySelector("#status").textContent = playerTwo.name + "'s turn(" + playerTwo.symbol + ")"
+    }
     }
 
-    if (e.target.textContent == "") {
-        e.target.textContent = "Hej"
-    } else{
-        e.target.textContent = ""
+   
+    let winner = checkWin()
+
+    if (winner){
+        if (winner == 'X') {
+            document.querySelector("#status").textContent = "Player One wins!"
+        } else {
+            document.querySelector("#status").textContent = "Player Two wins!"
+        }
+        document.querySelector("#restart").classList.toggle("hidden")
+        removeListeners()
+    } 
+
+}
+
+
+function checkWin(){
+    
+    for (const winningCombo of winningCombinations){
+        const[a, b, c] = winningCombo;
+        if (gameField[a] !== '' && gameField[a] == gameField[b] && gameField[b] == gameField[c]){
+            return gameField[a]
+        }
     }
+    return null
 }
 
-function checkHorisontal(){
-    const tiles = document.querySelectorAll(".gametile");
-}
-
-function checkVertical(){
-    const tiles = document.querySelectorAll(".gametile");
-}
 
 function createUser(name, symbol){
     return {name, symbol}
+}
+
+function addUser(){
+    let userInput = document.querySelector("#nameInput");
+
+    if (userInput.value == ""){
+         window.alert("Enter name");
+    } else if (playerOne == null){
+        playerOne = createUser(userInput.value, 'X')
+        userInput.value = ""
+        document.querySelector('#textNameInput').textContent = "Enter name for player-two"
+    } else {   
+        playerTwo = createUser(userInput.value, 'O')
+        document.querySelector('.userInput').classList.toggle("hidden");
+        document.querySelector("#status").textContent="Let's play!";
+        document.querySelector("#main-game").classList.toggle("hidden");
+
+    }
+
+}
+
+function reset(){
+    gameField = Array('', '', '', '', '', '', '', '', '');
+    addListeners()
+    const tiles = document.querySelectorAll(".gametile");
+    for (const tile of tiles){
+        tile.textContent="";
+    }
+    document.querySelector("#status").textContent="Let's play!";
+    document.querySelector("#restart").classList.toggle("hidden");
+    currentPlayer = null;
 }
